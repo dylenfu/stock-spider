@@ -1,4 +1,5 @@
 package org.dylenfu.spider.converter;
 
-public class Converter {
+public interface Converter<Up, Down> {
+    public void convert(Up src, Down dst);
 }

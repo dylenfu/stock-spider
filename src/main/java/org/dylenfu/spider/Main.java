@@ -9,13 +9,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        StockAccessor accessor = new StockAccessor();
+        String dir = "/Users/dylen/workspace/javahome/github.com/dylenfu/stock-spider/data/";
         String url = "http://stockpage.10jqka.com.cn/002648/";
+
+        StockAccessor accessor = new StockAccessor();
+        accessor.setCacheDir(dir);
+
+        Converter converter = new StockConverter();
 
         try {
             Document doc = accessor.getDocFromUrl(url);
             Stock stock = new Stock();
-            Converter converter = new StockConverter();
             converter.convert(doc, stock);
 
             System.out.println(stock);
