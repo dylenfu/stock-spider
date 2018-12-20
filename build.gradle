@@ -1,0 +1,41 @@
+group 'com.dylenfu'
+version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+   mavenCentral()
+   mavenLocal()
+}
+
+dependencies {
+   // common
+   compile group: 'junit', name: 'junit', version: '4.12'
+   compile 'log4j:log4j:1.2.17'
+   compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
+
+   // lombok
+   compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+
+   // Jsoup extract dom data struct: html,xml
+   compile 'org.jsoup:jsoup:1.11.3'
+   // microsoft poi: import/export excel
+   compile group: 'org.apache.poi', name: 'poi', version: '4.0.1'
+}
+
+// ex: gradle run
+run() {
+   classpath sourceSets.main.runtimeClasspath
+   mainClassName = 'org.dylenfu.spider.Main'
+}
+
+// ex: gradle test --tests *NutzTest —info
+test {
+   testLogging {
+       // Show that tests are run in the command-line output
+       events 'started', 'passed'
+   }
+}

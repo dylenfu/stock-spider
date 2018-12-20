@@ -1,0 +1,6 @@
+.idea/
+.gradle/
+build/
+archime.iml
+out/
+*.xls
