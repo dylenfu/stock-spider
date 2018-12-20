@@ -1,5 +1,6 @@
 .idea/
 .gradle/
+.data/
 build/
 archime.iml
 out/
