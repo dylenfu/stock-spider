@@ -7,7 +7,7 @@ public class Stock {
 
     private String name;
     private String code;
-    private int capital;
+    private double capital;
     private List<Double> profits;
     private List<String> news;
 
@@ -27,11 +27,11 @@ public class Stock {
         this.code = code;
     }
 
-    public int getCapital() {
+    public double getCapital() {
         return capital;
     }
 
-    public void setCapital(int capital) {
+    public void setCapital(double capital) {
         this.capital = capital;
     }
 

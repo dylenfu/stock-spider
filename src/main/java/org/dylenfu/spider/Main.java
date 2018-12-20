@@ -13,8 +13,9 @@ public class Main {
 
     public static void main(String[] args) {
         Config config = ConfigFactory.load();
-        List<String> urls = config.getStringList("urls");
-        String dir = config.getString("cache");
+        String baseUrl = config.getString("base_url");
+        List<String> stockCodeList = config.getStringList("stock_codes");
+        String dir = config.getString("cache_dir");
 
         StockAccessor accessor = new StockAccessor();
         accessor.setCacheDir(dir);
@@ -22,9 +23,9 @@ public class Main {
         Converter converter = new StockConverter();
 
         try {
-            Iterator<String> iterator = urls.iterator();
+            Iterator<String> iterator = stockCodeList.iterator();
             while(iterator.hasNext()) {
-                String url = iterator.next();
+                String url = baseUrl + iterator.next() + "/";
                 Document doc = accessor.getDocFromUrl(url);
                 Stock stock = new Stock();
                 converter.convert(doc, stock);
