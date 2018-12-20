@@ -6,18 +6,29 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StockConverter implements Converter<Document, Stock> {
 
-    public void convert(Document doc, Stock stock) {
+    public void convertBaseInfo(Document doc, Stock stock) {
         String[] header = getNameAndCode(doc);
         stock.setName(header[0]);
         stock.setCode(header[1]);
 
         double capital = getCapital(doc);
         stock.setCapital(capital);
+    }
+
+    public void convertFinancial(Document doc, Stock stock) {
+        List<Double> profits = getProfits(doc);
+        stock.setProfits(profits);
+    }
+
+    public void convertNewsFlash(Document doc, Stock stock) {
+
     }
 
     private String[] getNameAndCode(Document doc) {
@@ -35,6 +46,13 @@ public class StockConverter implements Converter<Document, Stock> {
         String str = elements.get(0).childNode(55).childNode(0).toString();
         str = trimCn(str);
         return str2double(str);
+    }
+
+    private List<Double> getProfits(Document doc) {
+        List<Double> list = new ArrayList<>();
+
+        // Elements elements = doc.getElementsByAttribute();
+        return list;
     }
 
     private String trimCn(String str) {

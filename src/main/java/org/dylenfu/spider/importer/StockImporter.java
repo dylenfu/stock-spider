@@ -12,7 +12,11 @@ public class StockImporter {
 
     private HSSFWorkbook excel;
     private HSSFCellStyle cellStyle;
-    private String filepath = "/Users/dylen/workspace/javahome/github.com/dylenfu/stock-spider/test.xls";
+    private String filepath;
+
+    public void setOutputPath(String filepath) {
+        this.filepath = filepath;
+    }
 
     public void createWorkBook(List head, List<List> content) {
         excel = new HSSFWorkbook();

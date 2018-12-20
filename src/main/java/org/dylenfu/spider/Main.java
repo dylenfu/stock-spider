@@ -25,10 +25,16 @@ public class Main {
         try {
             Iterator<String> iterator = stockCodeList.iterator();
             while(iterator.hasNext()) {
-                String url = baseUrl + iterator.next() + "/";
-                Document doc = accessor.getDocFromUrl(url);
+                String briefInfoUrl = baseUrl + iterator.next() + "/";
+                String financialUrl = briefInfoUrl + "finance/";
                 Stock stock = new Stock();
-                converter.convert(doc, stock);
+
+                Document docBriefInfo = accessor.getDocFromUrl(briefInfoUrl);
+                converter.convertBaseInfo(docBriefInfo, stock);
+
+                Document docFinancial = accessor.getDocFromUrl(financialUrl);
+                converter.convertFinancial(docFinancial, stock);
+
                 System.out.println(stock);
             }
         } catch (Exception e) {

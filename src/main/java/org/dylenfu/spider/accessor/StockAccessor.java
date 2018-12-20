@@ -30,7 +30,11 @@ public class StockAccessor {
 
     private String urlToFileName(String url) {
         String[] data = url.split("/");
-        assert (data.length >= 3):"url invalid";
-        return data[3];
+        assert (data.length >= 4):"url invalid";
+        if (data.length == 4) {
+            return data[3] + "_briefinfo";
+        } else {
+            return data[3] + "_" + data[4];
+        }
     }
 }
