@@ -6,7 +6,7 @@ import java.util.List;
 public class Stock {
 
     private String name;
-    private int code;
+    private String code;
     private int capital;
     private List<Double> profits;
     private List<String> news;
@@ -19,11 +19,11 @@ public class Stock {
         this.name = name;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
