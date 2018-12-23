@@ -1,4 +1,4 @@
-package org.dylenfu.spider.importer;
+package org.dylenfu.spider.excel;
 
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
-public class StockImporter {
+public class ExcelWriter {
 
     private HSSFWorkbook excel;
     private HSSFCellStyle cellStyle;
@@ -42,6 +42,10 @@ public class StockImporter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void readWorkBook() {
+
     }
 
     private void createRow(HSSFSheet sheet, int column, List<Object> list) {

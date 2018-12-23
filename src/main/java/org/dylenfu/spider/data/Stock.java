@@ -7,8 +7,9 @@ public class Stock {
 
     private String name;
     private String code;
-    private double capital;
-    private List<Double> profits;
+    private String capital;
+    private String floating;
+    private List<String> profits;
     private List<String> news;
 
     public String getName() {
@@ -27,19 +28,23 @@ public class Stock {
         this.code = code;
     }
 
-    public double getCapital() {
+    public String getCapital() {
         return capital;
     }
 
-    public void setCapital(double capital) {
+    public void setCapital(String capital) {
         this.capital = capital;
     }
 
-    public List<Double> getProfits() {
+    public String getFloating() { return floating; }
+
+    public void setFloating(String floating) { this.floating = floating; }
+
+    public List<String> getProfits() {
         return profits;
     }
 
-    public void setProfits(List<Double> profits) {
+    public void setProfits(List<String> profits) {
         this.profits = profits;
     }
 
@@ -51,7 +56,7 @@ public class Stock {
         this.news = news;
     }
 
-    public void addProfit(Double profit) {
+    public void addProfit(String profit) {
         if (this.profits.isEmpty()) {
             this.profits = new ArrayList<>();
         }
@@ -81,7 +86,8 @@ public class Stock {
         List list = new ArrayList<String>();
         list.add("股票名称");
         list.add("股票代码");
-        list.add("股本(亿)");
+        list.add("股本");
+        list.add("流通股");
         list.add("2013");
         list.add("2014");
         list.add("2015");
@@ -90,6 +96,9 @@ public class Stock {
         list.add("2018Q1");
         list.add("2018Q2");
         list.add("2018Q3");
+        list.add("2018E");
+        list.add("2019E");
+        list.add("2020E");
         list.add("新闻(扩建、环评、投产)");
         return list;
     }
