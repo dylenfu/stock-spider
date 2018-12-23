@@ -1,5 +1,6 @@
 package org.dylenfu.spider;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.dylenfu.spider.accessor.*;
 import org.dylenfu.spider.data.*;
 import org.dylenfu.spider.converter.*;
@@ -11,12 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Main {
-
-    /**
-     * brief_cache_dir = "/Users/dylen/workspace/javahome/github.com/dylenfu/stock-spider/data/brief/"
-     * finance_cache_dir = "/Users/dylen/workspace/javahome/github.com/dylenfu/stock-spider/data/financial/"
-     * forecast_cache_dir = "/Users/dylen/workspace/javahome/github.com/dylenfu/stock-spider/data/forecast/"
-     * */
 
     public static void main(String[] args) {
         Config config = ConfigFactory.load();
@@ -34,8 +29,9 @@ public class Main {
         ExcelAccessor financialAccessor = new ExcelAccessor();
         financialAccessor.setCacheDir(financialDir);
 
-        Converter converter = new StockBriefDocumentConverter();
-
+        Converter briefConverter = new StockBriefDocumentConverter();
+        Converter financialConverter = new StockFinancialXlsConverter();
+        Converter forecastConverter = new StockForecastDocumentConverter();
         try {
             Iterator<String> iterator = stockCodeList.iterator();
             while(iterator.hasNext()) {
@@ -46,13 +42,13 @@ public class Main {
                 Stock stock = new Stock();
 
                 Document docBriefInfo = briefAccessor.getDocFromUrl(briefInfoUrl);
-                converter.convertBaseInfo(docBriefInfo, stock);
+                briefConverter.convert(docBriefInfo, stock);
 
-                Document docFinancial = briefAccessor.getDocFromUrl(financialUrl);
-                converter.convertFinancial(docFinancial, stock);
+                Workbook financialExcel = financialAccessor.getWorkbookFromUrl(financialUrl);
+                financialConverter.convert(financialExcel, stock);
 
-                Document docForecast = briefAccessor.getDocFromUrl(forecastUrl);
-                converter.convertForecast(docForecast, stock);
+                Document docForecast = forecastAccessor.getDocFromUrl(forecastUrl);
+                forecastConverter.convert(docForecast, stock);
 
                 System.out.println(stock);
             }
@@ -60,7 +56,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        ExcelReader excelReader = new ExcelReader();
+//        ExcelReader excelReader = new ExcelReader();
 //        StockImporter importer = new StockImporter();
 //        importer.createWorkBook();
     }
