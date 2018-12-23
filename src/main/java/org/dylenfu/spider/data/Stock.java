@@ -9,6 +9,7 @@ public class Stock {
     private String code;
     private String capital;
     private String floating;
+    private List<String> forecasts;
     private List<String> profits;
     private List<String> news;
 
@@ -56,6 +57,10 @@ public class Stock {
         this.news = news;
     }
 
+    public List<String> getForecasts() { return forecasts; }
+
+    public void setForecasts(List<String> forecasts) { this.forecasts = forecasts; }
+
     public void addProfit(String profit) {
         if (this.profits.isEmpty()) {
             this.profits = new ArrayList<>();
@@ -70,6 +75,13 @@ public class Stock {
         this.news.add(url);
     }
 
+    public void addForecast(String forecast) {
+        if (this.forecasts.isEmpty()) {
+            this.forecasts = new ArrayList<>();
+        }
+        this.forecasts.add(forecast);
+    }
+
     @Override
     public String toString() {
         return "Stock{" +
@@ -77,6 +89,7 @@ public class Stock {
                 ", code='" + code + '\'' +
                 ", capital='" + capital + '\'' +
                 ", floating='" + floating + '\'' +
+                ", forecasts=" + forecasts +
                 ", profits=" + profits +
                 ", news=" + news +
                 ", concatNews='" + concatNews + '\'' +
