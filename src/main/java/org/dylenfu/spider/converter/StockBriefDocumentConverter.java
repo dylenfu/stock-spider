@@ -13,8 +13,11 @@ public class StockBriefDocumentConverter implements Converter<Document, Stock> {
         stock.setName(header[0]);
         stock.setCode(header[1]);
 
-        String capital = getCapitalAndFloating(doc);
+        String capital = getCapital(doc);
         stock.setCapital(capital);
+
+        String floating = getFloating(doc);
+        stock.setFloating(floating);
     }
 
     private String[] getNameAndCode(Document doc) {
@@ -27,18 +30,16 @@ public class StockBriefDocumentConverter implements Converter<Document, Stock> {
         return ret;
     }
 
-    // TODO(fuk): debug to get floating data
-    private String getCapitalAndFloating(Document doc) {
+    private String getCapital(Document doc) {
         Elements elements = doc.getElementsByClass("company_details");
-        String str = elements.get(0).childNode(55).childNode(0).toString();
-        return str.trim();
+        Node capitalNode = elements.get(0).childNode(55);
+        return capitalNode.childNode(0).toString().trim();
     }
 
-//    private List<String> getProfits(Document doc) {
-//        List<String> list = new ArrayList<>();
-//        Element table = doc.getElementById("cwzbTable").getElementsByClass("data_tbody").get(0);
-//        Element data = table.getElementById("main");
-//        return list;
-//    }
+    private String getFloating(Document doc) {
+        Elements elements = doc.getElementsByClass("company_details");
+        Node floatingNode = elements.get(0).childNode(59);
+        return floatingNode.childNode(0).toString().trim();
+    }
 
 }

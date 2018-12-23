@@ -38,7 +38,7 @@ public class Main {
                 String stockCode = iterator.next();
                 String briefInfoUrl = corporationBaseUrl + stockCode + "/";
                 String financialUrl = financialBaseUrl + stockCode + "/finance.html#stockpage";
-                String forecastUrl = corporationBaseUrl + "worth/#forecastdetail";
+                String forecastUrl = briefInfoUrl + "worth/#forecastdetail";
                 Stock stock = new Stock();
 
                 Document docBriefInfo = briefAccessor.getDocFromUrl(briefInfoUrl);

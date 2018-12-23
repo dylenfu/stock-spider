@@ -74,8 +74,9 @@ public class Stock {
     public String toString() {
         return "Stock{" +
                 "name='" + name + '\'' +
-                ", code=" + code +
-                ", capital=" + capital +
+                ", code='" + code + '\'' +
+                ", capital='" + capital + '\'' +
+                ", floating='" + floating + '\'' +
                 ", profits=" + profits +
                 ", news=" + news +
                 ", concatNews='" + concatNews + '\'' +

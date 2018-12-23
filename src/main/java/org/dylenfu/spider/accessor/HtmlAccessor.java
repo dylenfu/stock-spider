@@ -30,7 +30,13 @@ public class HtmlAccessor extends Accessor {
 
         String stockcode = data[3];
         String prefix = "stock_";
-        String suffix = "_brief.html";
+        String suffix;
+
+        if (data.length > 4) {
+            suffix = "_"  + data[4] + ".html";
+        } else {
+            suffix = "_brief.html";
+        }
 
         return prefix + stockcode + suffix;
     }
