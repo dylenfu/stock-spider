@@ -6,17 +6,25 @@ import org.jsoup.nodes.Document;
 
 // TODO(FUK): search engine matching "stock code & key words"
 
-public class HtmlAccessor extends Accessor {
+public class HtmlAccessor extends AbstractAccessor implements Accessor<Document> {
 
-    public Document getDocFromUrl(String url) throws Exception {
+    public HtmlAccessor(String dirPath) {
+        setCacheDir(dirPath);
+    }
+
+    public Document getFileFromUrl(String url) {
         String filename = urlToFileName(url);
-        String filepath = dirPath + filename;
-
+        String filepath = getDirPath() + filename;
         FileHelper fileHelper = new FileHelper();
-        if (!fileHelper.exist(filepath)) {
-            Document doc = Jsoup.connect(url).get();
-            String html = doc.toString();
-            fileHelper.write(filepath, html);
+
+        try {
+            if (!fileHelper.exist(filepath)) {
+                Document doc = Jsoup.connect(url).get();
+                String html = doc.toString();
+                fileHelper.write(filepath, html);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // data from wget is different with content of cache file
@@ -26,7 +34,7 @@ public class HtmlAccessor extends Accessor {
 
     public String urlToFileName(String url) {
         String[] data = url.split("/");
-        if (data.length < 4) throw new RuntimeException("url invalid");
+        if (data.length < 4) throw new RuntimeException("url for html invalid");
 
         String stockcode = data[3];
         String prefix = "stock_";

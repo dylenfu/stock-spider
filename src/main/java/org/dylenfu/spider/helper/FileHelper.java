@@ -1,10 +1,10 @@
 package org.dylenfu.spider.helper;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.*;
+import org.apache.commons.io.FileUtils;
 
 public class FileHelper {
 
@@ -33,4 +33,12 @@ public class FileHelper {
         return Files.exists(path);
     }
 
+    public void download(String url, String filepath) throws Exception {
+        File file = new File(filepath);
+        URL remoteUrl = new URL(url);
+        URLConnection conn = remoteUrl.openConnection();
+        conn.setRequestProperty("User-agent", "chrome");
+        InputStream input = conn.getInputStream();
+        FileUtils.copyInputStreamToFile(input, file);
+    }
 }

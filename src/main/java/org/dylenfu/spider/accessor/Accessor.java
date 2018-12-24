@@ -1,10 +1,8 @@
 package org.dylenfu.spider.accessor;
 
-abstract class Accessor {
+public interface Accessor<T> {
 
-    public String dirPath;
+    public T getFileFromUrl(String url);
+    public String urlToFileName(String url);
 
-    public void setCacheDir(String path) { this.dirPath = path; }
-
-    public String urlToFileName(String url) { return ""; }
 }

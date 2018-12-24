@@ -4,7 +4,6 @@ import org.dylenfu.spider.data.Stock;
 import org.dylenfu.spider.helper.StringHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.text.DecimalFormat;
@@ -39,7 +38,6 @@ public class StockForecastDocumentConverter implements Converter<Document, Stock
         // 2018， 2019， 20203年预测均值, 保留3位小数
         DecimalFormat doubleFormatter = new DecimalFormat("0.000");
         for(ColData colData: colDataList) {
-            String suffix = "";
             Double sum = 0d;
 
             for(int i = 2; i < rows.size(); i++) {

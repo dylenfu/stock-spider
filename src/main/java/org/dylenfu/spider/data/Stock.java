@@ -10,8 +10,17 @@ public class Stock {
     private String capital;
     private String floating;
     private List<String> forecasts;
-    private List<String> profits;
+    private List<String> profitsYear;
+    private List<String> profitsSeason;
     private List<String> news;
+
+    public void Stock() {
+        this.profitsYear = new ArrayList<>();
+        this.profitsSeason = new ArrayList<>();
+        this.news = new ArrayList<>();
+        this.profitsSeason = new ArrayList<>();
+        this.forecasts = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
@@ -41,12 +50,16 @@ public class Stock {
 
     public void setFloating(String floating) { this.floating = floating; }
 
-    public List<String> getProfits() {
-        return profits;
+    public List<String> getProfitsSeason() { return profitsSeason; }
+
+    public void setProfitsSeason(List<String> profitsSeason) { this.profitsSeason = profitsSeason; }
+
+    public List<String> getProfitsYear() {
+        return profitsYear;
     }
 
-    public void setProfits(List<String> profits) {
-        this.profits = profits;
+    public void setProfitsYear(List<String> profitsYear) {
+        this.profitsYear = profitsYear;
     }
 
     public List<String> getNews() {
@@ -61,26 +74,13 @@ public class Stock {
 
     public void setForecasts(List<String> forecasts) { this.forecasts = forecasts; }
 
-    public void addProfit(String profit) {
-        if (this.profits.isEmpty()) {
-            this.profits = new ArrayList<>();
-        }
-        this.profits.add(profit);
-    }
+    public void addProfitYear(String profit) { this.profitsYear.add(profit); }
 
-    public void addNews(String url) {
-        if (this.news.isEmpty()) {
-            this.news = new ArrayList<>();
-        }
-        this.news.add(url);
-    }
+    public void addProfitSeason(String profit) { this.profitsSeason.add(profit); }
 
-    public void addForecast(String forecast) {
-        if (this.forecasts.isEmpty()) {
-            this.forecasts = new ArrayList<>();
-        }
-        this.forecasts.add(forecast);
-    }
+    public void addNews(String url) { this.news.add(url); }
+
+    public void addForecast(String forecast) { this.forecasts.add(forecast); }
 
     @Override
     public String toString() {
@@ -90,7 +90,8 @@ public class Stock {
                 ", capital='" + capital + '\'' +
                 ", floating='" + floating + '\'' +
                 ", forecasts=" + forecasts +
-                ", profits=" + profits +
+                ", profitsYear=" + profitsYear +
+                ", profitsSeason=" + profitsSeason +
                 ", news=" + news +
                 ", concatNews='" + concatNews + '\'' +
                 '}';
@@ -121,14 +122,14 @@ public class Stock {
 
     public List toContentList() {
 
-        assert(this.profits.size() == 8):"profits length invalid";
+        assert(this.profitsYear.size() == 8):"profitsYear length invalid";
 
         List list = new ArrayList<String>();
 
         list.add(this.name);
         list.add(this.code);
         list.add(this.capital);
-        list.add(this.profits);
+        list.add(this.profitsYear);
         this.news.forEach(x -> concatNews += (x + "\r"));
         list.add(concatNews);
         return list;
