@@ -71,7 +71,20 @@ public class StockModule {
     }
 
     public void write() {
+        String fileName = "stocks.xls";
+        String outputPath = config.getString("output_dir") + fileName;
+        ExcelWriter writer = new ExcelWriter(outputPath);
+        writer.getSheet("sheet1");
 
+        Stock head = new Stock();
+        writer.createRow(1, head.toHeadList());
+
+        for(int i = 0; i < stocks.size(); i++) {
+            int rowIdx = i + 2;
+            List<Object> row = stocks.get(i).toContentList();
+            writer.createRow(rowIdx, row);
+        }
+        writer.save();
     }
 
     private String getBriefInfoUrl(String stockCode) {

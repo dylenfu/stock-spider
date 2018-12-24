@@ -9,6 +9,7 @@ public class Stock {
     private String code;
     private String capital;
     private String floating;
+    private String concatNews;
     private List<String> forecasts;
     private List<String> profitsYear;
     private List<String> profitsSeason;
@@ -97,20 +98,22 @@ public class Stock {
                 '}';
     }
 
-    public List toHeadList() {
-        List list = new ArrayList<String>();
+    public List<Object> toHeadList() {
+        List<Object> list = new ArrayList<>();
         list.add("股票名称");
         list.add("股票代码");
         list.add("股本");
         list.add("流通股");
-        list.add("2013");
-        list.add("2014");
-        list.add("2015");
-        list.add("2016");
-        list.add("2017");
-        list.add("2018Q1");
-        list.add("2018Q2");
         list.add("2018Q3");
+        list.add("2018Q2");
+        list.add("2018Q1");
+        list.add("2017");
+        list.add("2016");
+        list.add("2015");
+        list.add("2014");
+        list.add("2013");
+        list.add("2012");
+        list.add("2011");
         list.add("2018E");
         list.add("2019E");
         list.add("2020E");
@@ -118,20 +121,20 @@ public class Stock {
         return list;
     }
 
-    String concatNews = "";
-
-    public List toContentList() {
-
-        assert(this.profitsYear.size() == 8):"profitsYear length invalid";
-
-        List list = new ArrayList<String>();
+    public List<Object> toContentList() {
+        List<Object> list = new ArrayList<>();
 
         list.add(this.name);
         list.add(this.code);
         list.add(this.capital);
-        list.add(this.profitsYear);
-        this.news.forEach(x -> concatNews += (x + "\r"));
-        list.add(concatNews);
+        list.add(this.floating);
+        list.addAll(this.profitsSeason);
+        list.addAll(this.profitsYear);
+        list.addAll(this.forecasts);
+        if (this.news != null && this.news.size() > 0) {
+            this.news.forEach(x -> concatNews += (x + "\r"));
+            list.add(concatNews);
+        }
         return list;
     }
 }

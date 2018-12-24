@@ -1,62 +1,65 @@
 package org.dylenfu.spider.excel;
 
-import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.*;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
 public class ExcelWriter {
 
-    private HSSFWorkbook excel;
-    private HSSFCellStyle cellStyle;
+    private Workbook excel;
+    private Sheet sheet;
+    private CellStyle cellStyle;
     private String filepath;
+    private DataFormatter dataFormatter;
 
-    public void setOutputPath(String filepath) {
+    // create a workbook from an existing excel file, support xls/xlsx
+    public ExcelWriter(String filepath) {
         this.filepath = filepath;
+        try {
+            excel = WorkbookFactory.create(false);
+            //excel = WorkbookFactory.create(new File(this.filepath));
+            cellStyle = excel.createCellStyle();
+            cellStyle.setAlignment(HorizontalAlignment.LEFT);
+            dataFormatter = new DataFormatter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void createWorkBook(List head, List<List> content) {
-        excel = new HSSFWorkbook();
-        cellStyle = excel.createCellStyle();
-        cellStyle.setAlignment(HorizontalAlignment.LEFT);
-
-        // create work sheet
-        HSSFSheet sheet = excel.createSheet("学生表一");
-
-        // add head row and element
-        createRow(sheet, 0, head);
-
-        // add content row and element
-        for(int i = 0; i < content.size(); i++) {
-            createRow(sheet, i + 1, content.get(i));
+    // get default sheet
+    public void getSheet(String sheetName) {
+        sheet = excel.getSheet(sheetName);
+        if (sheet == null) {
+            sheet = excel.createSheet(sheetName);
         }
+    }
 
-        // save file
+    public void save() {
+        System.out.println(excel);
         try {
             OutputStream stream = new FileOutputStream(filepath);
             excel.write(stream);
             stream.close();
+            excel.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void readWorkBook() {
-
-    }
-
-    private void createRow(HSSFSheet sheet, int column, List<Object> list) {
-        HSSFRow row = sheet.createRow(column);
+    public void createRow(int column, List<Object> list) {
+        Row row = sheet.createRow(column);
         for(int i = 0; i < list.size(); i++) {
             setCell(row, i, list.get(i));
         }
     }
 
-    private <T> void setCell(HSSFRow row, int column, T value) {
-        HSSFCell cell = row.createCell(column);
+    private <T> void setCell(Row row, int column, Object value) {
+        Cell cell = row.createCell(column);
         if (value instanceof String) {
             cell.setCellValue((String)value);
         } else if (value instanceof Double) {
