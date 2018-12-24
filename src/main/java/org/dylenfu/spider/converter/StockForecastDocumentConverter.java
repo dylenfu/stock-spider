@@ -19,7 +19,11 @@ public class StockForecastDocumentConverter implements Converter<Document, Stock
 
     private List<String> getForecasts(Document doc) {
         List<String> list = new ArrayList<>();
-        Element table = doc.getElementById("forecastdetail").select("table").get(0);
+        Element forecastDetail = doc.getElementById("forecastdetail");
+        if (forecastDetail == null) {
+            return list;
+        }
+        Element table = forecastDetail.select("table").get(0);
         Elements rows = table.select("tr");
 
         if (rows.size() < 2) {
@@ -39,19 +43,26 @@ public class StockForecastDocumentConverter implements Converter<Document, Stock
         DecimalFormat doubleFormatter = new DecimalFormat("0.000");
         for(ColData colData: colDataList) {
             Double sum = 0d;
+            int length = 0;
 
             for(int i = 2; i < rows.size(); i++) {
                 Element row = rows.get(i);
                 Elements cols = row.select("td");
                 String colv = cols.get(colData.colIdx).text();
-                Double value = StringHelper.str2double(StringHelper.trimCn(colv));
-                sum += value;
+                if (StringHelper.hasDigit(colv)) {
+                    Double value = StringHelper.str2double(StringHelper.trimCn(colv));
+                    sum += value;
+                    length++;
+                }
             }
 
-            // get
-            int length = rows.size() - 2;
-            Double avrg = sum / length;
-            list.add(doubleFormatter.format(avrg).toString());
+            // get average value
+            if (sum == 0) {
+                list.add("--");
+            } else {
+                Double avrg = sum / length;
+                list.add(doubleFormatter.format(avrg));
+            }
         }
 
         return list;

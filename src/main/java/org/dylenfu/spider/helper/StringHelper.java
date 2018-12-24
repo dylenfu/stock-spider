@@ -14,6 +14,16 @@ final public class StringHelper {
         return mat.replaceAll("").trim();
     }
 
+    // 判断字符串中是否包含数字
+    public static boolean hasDigit(String content) {
+        boolean flag = false;
+        Pattern p = Pattern.compile(".*\\d+.*");
+        Matcher m = p.matcher(content);
+        if (m.matches())
+            flag = true;
+        return flag;
+    }
+
     public static double str2double(String str) {
         return Double.parseDouble(str);
     }

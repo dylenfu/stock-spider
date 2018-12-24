@@ -72,9 +72,10 @@ public class StockModule {
 
     public void write() {
         String fileName = "stocks.xls";
+        String sheetName = config.getString("sheet_name");
         String outputPath = config.getString("output_dir") + fileName;
         ExcelWriter writer = new ExcelWriter(outputPath);
-        writer.getSheet("sheet1");
+        writer.getSheet(sheetName);
 
         Stock head = new Stock();
         writer.createRow(1, head.toHeadList());

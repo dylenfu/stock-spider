@@ -128,12 +128,30 @@ public class Stock {
         list.add(this.code);
         list.add(this.capital);
         list.add(this.floating);
-        list.addAll(this.profitsSeason);
-        list.addAll(this.profitsYear);
-        list.addAll(this.forecasts);
+        list.addAll(fullFillList(this.profitsSeason, 3));
+        list.addAll(fullFillList(this.profitsYear, 7));
+        list.addAll(fullFillList(this.forecasts, 3));
+
         if (this.news != null && this.news.size() > 0) {
             this.news.forEach(x -> concatNews += (x + "\r"));
             list.add(concatNews);
+        }
+        return list;
+    }
+
+    private List<Object> fullFillList(List src, int n) {
+        List<Object> list = new ArrayList<>();
+        if (src == null || src.size() == 0) {
+            for(int i = 0; i < n; i++) {
+                list.add("--");
+            }
+        } else {
+            list.addAll(src);
+            if (src.size() < n) {
+                for(int i = 0; i < n - src.size(); i++) {
+                    list.add("--");
+                }
+            }
         }
         return list;
     }
