@@ -14,15 +14,12 @@ public class ExcelWriter {
     private CellStyle cellStyle;
     private String filepath;
 
-    private InputStream inputStream;
-    private OutputStream outputStream;
-
     // create a workbook from an existing excel file, support xls/xlsx
     public ExcelWriter(String filepath) {
         this.filepath = filepath;
         File file = new File(filepath);
         try {
-            inputStream = new FileInputStream(file);
+            InputStream inputStream = new FileInputStream(file);
             excel = new HSSFWorkbook(inputStream);
             inputStream.close();
         } catch (IOException e) {
@@ -42,7 +39,7 @@ public class ExcelWriter {
 
     public void save() {
         try {
-            outputStream = new FileOutputStream(filepath);
+            OutputStream outputStream = new FileOutputStream(filepath);
             excel.write(outputStream);
             excel.close();
             outputStream.close();
@@ -50,16 +47,6 @@ public class ExcelWriter {
             e.printStackTrace();
         }
     }
-
-//    public void close() {
-//        try {
-//            inputStream.close();
-//            outputStream.close();
-//            excel.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public void createRow(int column, List<Object> list) {
         Row row = sheet.createRow(column);
