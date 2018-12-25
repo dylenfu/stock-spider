@@ -3,26 +3,21 @@ package org.dylenfu.spider.converter;
 import org.dylenfu.spider.data.Stock;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class StockGoogleSearchUrlConverter implements Converter<Document, Stock> {
 
     public void convert(Document doc, Stock stock) {
-        List<String> list = getSearchCapacity(doc);
-        Iterator<String> iterator = list.iterator();
-        while(iterator.hasNext()) {
-            String news = iterator.next();
-            stock.addNews(news);
+        List<String> list = getUrl(doc);
+        for(String url: list) {
+            stock.addNews(url);
         }
     }
 
-    private List<String> getSearchCapacity(Document doc) {
+    private List<String> getUrl(Document doc) {
         List<String> list = new ArrayList<>();
         Element searchRes = doc.getElementById("search");
         if (searchRes == null) {
