@@ -73,12 +73,12 @@ public class StockModule {
                 StockElementCollector capacityCollector = new StockElementCollector(c5, capacityAccessor, urlConverter);
                 capacityCollector.read(stock);
 
-                StockElementConfig c6 = new StockElementConfig(getGoogleSearchEIA(stock.getName()), eiaDir);
-                StockElementCollector eiaCollector = new StockElementCollector(c6, eiaAccessor, urlConverter);
-                eiaCollector.read(stock);
+                StockElementConfig c6 = new StockElementConfig(getGoogleSearchExpand(stock.getName()), expandDir);
+                StockElementCollector expandCollector = new StockElementCollector(c6, expandAccessor, urlConverter);
+                expandCollector.read(stock);
 
-                StockElementConfig c7 = new StockElementConfig(getGoogleSearchExpand(stock.getName()), expandDir);
-                StockElementCollector expandCollector = new StockElementCollector(c7, expandAccessor, urlConverter);
+                StockElementConfig c7 = new StockElementConfig(getGoogleSearchEIA(stock.getName()), eiaDir);
+                StockElementCollector eiaCollector = new StockElementCollector(c7, eiaAccessor, urlConverter);
                 eiaCollector.read(stock);
 
                 System.out.println(stock);
