@@ -1,5 +1,6 @@
 package org.dylenfu.spider.excel;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
@@ -18,18 +19,27 @@ public class ExcelWriter {
     public ExcelWriter(String filepath) {
         this.filepath = filepath;
         File file = new File(filepath);
+
         try {
-            InputStream inputStream = new FileInputStream(file);
-            excel = new HSSFWorkbook(inputStream);
-            inputStream.close();
-        } catch (IOException e) {
+            if (!file.exists()) {
+                file.createNewFile();
+                excel = new HSSFWorkbook();
+            } else {
+                InputStream inputStream = new FileInputStream(file);
+                excel = new HSSFWorkbook(inputStream);
+                inputStream.close();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // get default sheet
     public void createSheet(String sheetName) {
-        sheet = excel.createSheet(sheetName);
+        sheet = excel.getSheet(sheetName);
+        if (sheet == null) {
+            sheet = excel.createSheet(sheetName);
+        }
     }
 
     public void setCellStyle() {
