@@ -15,12 +15,13 @@ public class Stock {
     private List<String> profitsSeason;
     private List<String> news;
 
-    public void Stock() {
+    public Stock() {
         this.profitsYear = new ArrayList<>();
         this.profitsSeason = new ArrayList<>();
         this.news = new ArrayList<>();
         this.profitsSeason = new ArrayList<>();
         this.forecasts = new ArrayList<>();
+        this.concatNews = "";
     }
 
     public String getName() {

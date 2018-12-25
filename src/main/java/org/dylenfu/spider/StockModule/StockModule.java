@@ -30,6 +30,7 @@ public class StockModule {
         String financialYearDir = config.getString("financial_year_cache_dir");
         String capacityDir = config.getString("capacity_cache_dir");
         String eiaDir = config.getString("eia_cache_dir");
+        String expandDir = config.getString("expand_cache_dir");
 
         Accessor<Document> briefAccessor = new HtmlAccessor(briefDir);
         Accessor<Document> forecastAccessor = new HtmlAccessor(forecastDir);
@@ -37,13 +38,13 @@ public class StockModule {
         Accessor<ExcelReader> financialYearAccessor = new ExcelAccessor(financialYearDir);
         Accessor<Document> capacityAccessor = new HtmlAccessor(capacityDir);
         Accessor<Document> eiaAccessor = new HtmlAccessor(eiaDir);
+        Accessor<Document> expandAccessor = new HtmlAccessor(expandDir);
 
         Converter briefConverter = new StockBriefDocumentConverter();
         Converter forecastConverter = new StockForecastDocumentConverter();
         Converter financialSeasonConverter = new StockFinancialSeasonXlsConverter();
         Converter financialYearConverter = new StockFinancialYearXlsConverter();
-        Converter capacityConveter = new StockCapacityDocumentConverter();
-        Converter eiaConverter = new StockEIADocumentConverter();
+        Converter urlConverter = new StockGoogleSearchUrlConverter();
 
         try {
             Iterator<String> iterator = stockCodeList.iterator();
@@ -69,11 +70,15 @@ public class StockModule {
                 financialSeasonCollector.read(stock);
 
                 StockElementConfig c5 = new StockElementConfig(getGoogleSearchCapacity(stock.getName()), capacityDir);
-                StockElementCollector capacityCollector = new StockElementCollector(c5, capacityAccessor, capacityConveter);
+                StockElementCollector capacityCollector = new StockElementCollector(c5, capacityAccessor, urlConverter);
                 capacityCollector.read(stock);
 
                 StockElementConfig c6 = new StockElementConfig(getGoogleSearchEIA(stock.getName()), eiaDir);
-                StockElementCollector eiaCollector = new StockElementCollector(c6, eiaAccessor, eiaConverter);
+                StockElementCollector eiaCollector = new StockElementCollector(c6, eiaAccessor, urlConverter);
+                eiaCollector.read(stock);
+
+                StockElementConfig c7 = new StockElementConfig(getGoogleSearchExpand(stock.getName()), expandDir);
+                StockElementCollector expandCollector = new StockElementCollector(c7, expandAccessor, urlConverter);
                 eiaCollector.read(stock);
 
                 System.out.println(stock);
@@ -123,16 +128,22 @@ public class StockModule {
         return briefInfoUrl + "worth/#forecastdetail";
     }
 
-    final int GOOGLE_SEARCH_CAPACITY = 10;
+    final int GOOGLE_SEARCH_CAPACITY = 2;
     private String getGoogleSearchCapacity(String stockName) {
         String baseUrl = config.getString("google_url");
-        // "https://www.google.com/search?q=002648 投产 环评&num=20"
+        // "https://www.google.com/search?q=002648 投产&num=10"
         return baseUrl + "q=" + stockName + " 投产&num=" + GOOGLE_SEARCH_CAPACITY;
     }
 
     private String getGoogleSearchEIA(String stockName) {
         String baseUrl = config.getString("google_url");
-        // "https://www.google.com/search?q=002648 投产 环评&num=20"
+        // "https://www.google.com/search?q=002648 环评&num=10"
         return baseUrl + "q=" + stockName + " 环评&num=" + GOOGLE_SEARCH_CAPACITY;
+    }
+
+    private String getGoogleSearchExpand(String stockName) {
+        String baseUrl = config.getString("google_url");
+        // "https://www.google.com/search?q=002648 环评&num=10"
+        return baseUrl + "q=" + stockName + " 扩建&num=" + GOOGLE_SEARCH_CAPACITY;
     }
 }
