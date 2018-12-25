@@ -71,11 +71,11 @@ public class StockModule {
     }
 
     public void write() {
-        String fileName = "stocks.xls";
         String sheetName = config.getString("sheet_name");
-        String outputPath = config.getString("output_dir") + fileName;
+        String outputPath = config.getString("output_excel");
         ExcelWriter writer = new ExcelWriter(outputPath);
-        writer.getSheet(sheetName);
+        writer.createSheet(sheetName);
+        writer.setCellStyle();
 
         Stock head = new Stock();
         writer.createRow(1, head.toHeadList());
@@ -86,6 +86,7 @@ public class StockModule {
             writer.createRow(rowIdx, row);
         }
         writer.save();
+       //writer.close();
     }
 
     private String getBriefInfoUrl(String stockCode) {

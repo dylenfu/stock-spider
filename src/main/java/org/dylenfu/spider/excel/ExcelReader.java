@@ -24,6 +24,14 @@ public class ExcelReader {
         }
     }
 
+    public void close() {
+        try {
+            excel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // get default sheet
     public void setSheet() {
         sheet = excel.getSheetAt(0);
